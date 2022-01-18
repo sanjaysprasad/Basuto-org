@@ -1,0 +1,133 @@
+{% extends 'head.html' %} {% load static %} {% load social_share %} {% block content %}
+<!-- Jumbotron -->
+<div id="intro" class="p-5 text-center bg-light">
+    <h1 class="mb-0 h4 text-primary pt-5">{{pin.title}}</h1>
+</div>
+<!--Main layout-->
+<main class="mt-4 mb-5">
+    <div class="container">
+        <!--Grid row-->
+        <div class="row">
+            <!--Grid column-->
+            <div class="col-12 mb-4">
+                <!--Section: Post data-mdb-->
+                <section class="border-bottom mb-4">
+                    <img src="/static/media/{{pin.img}}" class="img-fluid shadow-2-strong rounded-5 mb-4" alt="" />
+                </section>
+                <!--Section: Post data-mdb-->
+                <div class="row align-items-center mb-4">
+                    <div class="col-lg-6 text-center text-lg-start mb-3 m-lg-0">
+                        <img src="{% static 'images/avater.png' %}" class="rounded-5 shadow-1-strong me-2" height="35" alt="" loading="lazy" />
+                        <span> Published <u></u> by</span>
+                        <a class="text-dark">{{pin.user.first_name}} {{pin.user.last_name}}</a>
+                    </div>
+                    <!-- like comment -->
+
+                    <div class="col-lg-6 mb-3 m-lg-0 small d-flex justify-content-end">
+                        <a type="submit" class="d-flex align-items-center me-3">
+                            <button type="submit" name="blogpost_id" value="{{pin.id}}" class="d-flex align-items-center me-3 border-0 p-0 m-0 text-primary" style="background:none;">
+                                <i class="far fa-thumbs-up me-2"></i>
+                                <p class="mb-0">{{ likes }} Like</p>
+                            </button>
+                        </a>
+                        <a href="#comment" class="d-flex align-items-center me-3">
+                            <i class="far fa-comment-dots me-2"></i>
+                            <p class="mb-0">Comment</p>
+                        </a>
+                        <a href="#!" class="d-flex align-items-center me-3" data-mdb-toggle="modal" data-mdb-target="#staticBackdrop">
+                            <i class="fas fa-share me-2"></i>
+                            <p class="mb-0">Share</p>
+                        </a>
+                    </div>
+                </div>
+                <!--Section: Text-->
+                <section>
+                    <p><strong>{{pin.caption}}</strong></p>
+
+                    <p>
+                        {{pin.brief}}
+                    </p>
+                </section>
+                <section style="background-color: #eee;">
+                    <div class="container my-5 py-5">
+                        <div class="row d-flex justify-content-start">
+                            <div class="col-md-12 col-lg-10 col-xl-8">
+                                <div class="card">
+                                    {% for i in comment %}
+                                    <div class="card-body">
+                                        <div class="d-flex flex-start align-items-center">
+                                            <img class="rounded-circle shadow-1-strong me-3" src="{% static 'images/avater.png' %}" alt="avatar" width="60" height="60" />
+                                            <div>
+                                                <h6 class="fw-bold text-primary mb-1">{{i.user.first_name}}</h6>
+                                                <p class="text-muted small mb-0">
+                                                    Shared publicly - Jan 2020
+                                                </p>
+                                            </div>
+                                        </div>
+
+                                        <p class="mt-3 mb-4 pb-2">
+                                            {{i.comment}}
+                                        </p>
+                                    </div>
+                                    {% endfor %}
+                                    <div class="card-footer py-3 border-0" style="background-color: #f8f9fa;">
+                                        <div class="d-flex flex-start w-100">
+                                            <img class="rounded-circle shadow-1-strong me-3" src="{% static 'images/avater.png' %}" alt="avatar" width="40" height="40" />
+                                            <div class="form-outline w-100">
+                                                <textarea class="form-control" name="comment_post" id="comment_post" rows="4" style="background: #fff;"></textarea>
+                                                <label class="form-label" for="textAreaExample" id="comment">Message</label>
+                                            </div>
+                                        </div>
+                                        <div class="float-end mt-2 pt-1">
+                                            <button type="submit" class="btn btn-primary btn-sm">Post
+                                                comment</button>
+                                            <button type="reset" class="btn btn-outline-primary btn-sm">Cancel</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+            <!--Grid column-->
+
+        </div>
+        <!--Grid row-->
+    </div>
+</main>
+<!--Main layout-->
+<div class="modal fade" id="staticBackdrop" data-mdb-backdrop="static" data-mdb-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Share Post</h5>
+                <button type="button" class="btn-close" data-mdb-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="d-flex flex-row mb-3">
+                    <div class="p-2">
+                        <li class="fab fa-facebook text-primary"></li>
+                    </div>
+                    <div class="p-2">{% post_to_facebook object_or_url "Post to Facebook"%}</div>
+                </div>
+                <div class="d-flex flex-row mb-3">
+                    <div class="p-2">
+                        <li class="fab fa-whatsapp text-success"></li>
+                    </div>
+                    <div class="p-2">{% post_to_whatsapp object_or_url "Share To Whatsapp" %}</div>
+                </div>
+                <div class="d-flex flex-row mb-3">
+                    <div class="p-2">
+                        <li class="fab fa-reddit-alien text-danger"></li>
+                    </div>
+                    <div class="p-2">{% post_to_reddit object_or_url "Share To Reddit" %}</div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-mdb-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
